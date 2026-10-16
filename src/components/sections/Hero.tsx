@@ -1,0 +1,105 @@
+import { TechIcon } from "../ui/TechIcon";
+
+const techIcons = [
+  { name: "react" as const, label: "React", position: "top-0 left-1/2 -translate-x-1/2 -translate-y-1/2" },
+  { name: "tailwind" as const, label: "Tailwind", position: "top-1/2 right-0 translate-x-1/2 -translate-y-1/2" },
+  { name: "typescript" as const, label: "TypeScript", position: "bottom-0 left-1/2 -translate-x-1/2 translate-y-1/2" },
+  { name: "git" as const, label: "Git", position: "top-1/2 left-0 -translate-x-1/2 -translate-y-1/2" },
+];
+
+export function Hero() {
+  return (
+    <section id="home" className="relative min-h-screen flex items-center pt-16 overflow-hidden">
+      {/* Background gradient */}
+      <div className="absolute inset-0 bg-gradient-to-b from-electric/5 via-transparent to-transparent pointer-events-none" />
+      <div className="absolute top-1/4 -left-32 w-96 h-96 bg-electric/5 rounded-full blur-3xl pointer-events-none" />
+      <div className="absolute bottom-1/4 -right-32 w-96 h-96 bg-electric/3 rounded-full blur-3xl pointer-events-none" />
+
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-20 md:py-32">
+        <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
+          {/* Left: Text content */}
+          <div className="space-y-8">
+            <div className="space-y-4">
+              <p className="font-mono text-electric text-sm tracking-wider">
+                Hi, my name is
+              </p>
+              <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold font-mono tracking-tight text-text-primary leading-tight">
+                Manuel Cárdenas
+              </h1>
+              <h2 className="text-2xl sm:text-3xl lg:text-4xl font-mono font-semibold text-text-muted leading-tight">
+                I build fast, modern web experiences.
+              </h2>
+            </div>
+
+            <p className="text-text-secondary text-base md:text-lg max-w-lg leading-relaxed">
+              Freelance web developer specializing in React, TypeScript, and performance-optimized
+              applications. I turn ideas into pixel-perfect, blazing-fast digital products.
+            </p>
+
+            <div className="flex flex-wrap gap-4">
+              <a
+                href="#work"
+                className="px-6 py-3 rounded-lg bg-electric text-white font-semibold text-sm hover:bg-electric-dim transition-colors shadow-lg shadow-electric/20"
+              >
+                View my work
+              </a>
+              <a
+                href="#contact"
+                className="px-6 py-3 rounded-lg border border-border text-text-primary font-semibold text-sm hover:border-electric/50 hover:text-electric transition-colors"
+              >
+                Get in touch
+              </a>
+            </div>
+
+            {/* Stats */}
+            <div className="flex gap-8 pt-4">
+              {[
+                { value: "8+", label: "Years exp." },
+                { value: "50+", label: "Projects" },
+                { value: "30+", label: "Clients" },
+              ].map((stat) => (
+                <div key={stat.label}>
+                  <div className="font-mono text-2xl font-bold text-electric">{stat.value}</div>
+                  <div className="text-xs text-text-muted mt-1">{stat.label}</div>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* Right: Profile photo with floating tech icons */}
+          <div className="flex justify-center lg:justify-end">
+            <div className="relative">
+              {/* Profile image container */}
+              <div className="relative w-64 h-64 sm:w-80 sm:h-80 rounded-2xl overflow-hidden border-2 border-border shadow-2xl shadow-black/30">
+                <div className="absolute inset-0 bg-gradient-to-br from-surface-elevated to-surface-hover flex items-center justify-center">
+                  <div className="text-center space-y-3">
+                    <div className="w-20 h-20 mx-auto rounded-full bg-electric/10 border border-electric/30 flex items-center justify-center">
+                      <span className="font-mono text-electric text-2xl font-bold">MC</span>
+                    </div>
+                    <p className="font-mono text-text-muted text-[10px]">Full-Stack Developer</p>
+                  </div>
+                </div>
+              </div>
+
+              {/* Floating tech icons — translate outward on hover */}
+              {techIcons.map((icon) => (
+                <div
+                  key={icon.name}
+                  className={`absolute ${icon.position} group`}
+                >
+                  <div className="w-12 h-12 rounded-xl bg-surface-elevated border border-border flex items-center justify-center shadow-lg shadow-black/20 transition-all duration-300 group-hover:scale-110 group-hover:border-electric/50 group-hover:shadow-electric/10">
+                    <TechIcon name={icon.name} className="w-5 h-5 text-text-muted group-hover:text-electric transition-colors" />
+                  </div>
+                  {/* Tooltip */}
+                  <span className="absolute -bottom-6 left-1/2 -translate-x-1/2 text-[10px] font-mono text-text-muted opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap">
+                    {icon.label}
+                  </span>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
