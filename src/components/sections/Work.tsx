@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useRef, type TouchEvent, type MouseEvent } from "react";
 import { PROJECTS } from "../../data/portfolio";
 import { SectionHeading } from "../ui/SectionHeading";
 import { MockupFrame } from "../ui/MockupFrame";
@@ -6,6 +6,7 @@ import { MockupFrame } from "../ui/MockupFrame";
 export function Work() {
   const [currentIndex, setCurrentIndex] = useState(0);
   const project = PROJECTS[currentIndex];
+  const dragStartX = useRef<number | null>(null);
 
   const goToPrev = () => {
     setCurrentIndex((prev) => (prev === 0 ? PROJECTS.length - 1 : prev - 1));
@@ -14,6 +15,37 @@ export function Work() {
   const goToNext = () => {
     setCurrentIndex((prev) => (prev === PROJECTS.length - 1 ? 0 : prev + 1));
   };
+
+  // Swipe / drag handlers for mobile
+  function handleDragStart(x: number) {
+    dragStartX.current = x;
+  }
+
+  function handleDragEnd(x: number) {
+    if (dragStartX.current === null) return;
+    const diff = x - dragStartX.current;
+    if (Math.abs(diff) > 50) {
+      if (diff < 0) goToNext();
+      else goToPrev();
+    }
+    dragStartX.current = null;
+  }
+
+  function onTouchStart(e: TouchEvent) {
+    handleDragStart(e.touches[0].clientX);
+  }
+
+  function onTouchEnd(e: TouchEvent) {
+    handleDragEnd(e.changedTouches[0].clientX);
+  }
+
+  function onMouseDown(e: MouseEvent) {
+    handleDragStart(e.clientX);
+  }
+
+  function onMouseUp(e: MouseEvent) {
+    handleDragEnd(e.clientX);
+  }
 
   return (
     <section id="work" className="py-20 md:py-28">
@@ -24,7 +56,13 @@ export function Work() {
           subtitle="A selection of recent projects I've designed and developed."
         />
 
-        <div className="relative group grid md:grid-cols-2 gap-10 lg:gap-16 items-center">
+        <div
+          className="relative group grid md:grid-cols-2 gap-10 lg:gap-16 items-center"
+          onTouchStart={onTouchStart}
+          onTouchEnd={onTouchEnd}
+          onMouseDown={onMouseDown}
+          onMouseUp={onMouseUp}
+        >
           {/* Left Column: Details & Navigation */}
           <div className="space-y-6">
             {/* Outlined big number */}
@@ -96,10 +134,32 @@ export function Work() {
             </div>
           </div>
 
-          {/* Navigation Arrows */}
+          {/* Mobile Navigation Arrows — below image, visible on small screens only */}
+          <div className="flex md:hidden items-center justify-center gap-4 mt-6">
+            <button
+              onClick={goToPrev}
+              className="w-12 h-12 rounded-full bg-[#232329] border border-gray-800 text-[#0095FF] flex items-center justify-center active:bg-[#0095FF] active:text-white transition-colors"
+              aria-label="Previous project"
+            >
+              <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+              </svg>
+            </button>
+            <button
+              onClick={goToNext}
+              className="w-12 h-12 rounded-full bg-[#232329] border border-gray-800 text-[#0095FF] flex items-center justify-center active:bg-[#0095FF] active:text-white transition-colors"
+              aria-label="Next project"
+            >
+              <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+              </svg>
+            </button>
+          </div>
+
+          {/* Desktop Navigation Arrows — hidden on mobile */}
           <button
             onClick={goToPrev}
-            className="absolute top-1/2 -left-20 -translate-y-1/2 z-30 w-12 h-12 rounded-full bg-[#232329] border border-gray-800 text-[#0095FF] flex items-center justify-center opacity-0 group-hover:opacity-100 hover:bg-[#0095FF] hover:text-white transition-all duration-200"
+            className="hidden md:flex absolute top-1/2 -left-20 -translate-y-1/2 z-30 w-12 h-12 rounded-full bg-[#232329] border border-gray-800 text-[#0095FF] items-center justify-center opacity-0 group-hover:opacity-100 hover:bg-[#0095FF] hover:text-white transition-all duration-200"
             aria-label="Previous project"
           >
             <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -109,7 +169,7 @@ export function Work() {
 
           <button
             onClick={goToNext}
-            className="absolute top-1/2 -right-20 -translate-y-1/2 z-30 w-12 h-12 rounded-full bg-[#232329] border border-gray-800 text-[#0095FF] flex items-center justify-center opacity-0 group-hover:opacity-100 hover:bg-[#0095FF] hover:text-white transition-all duration-200"
+            className="hidden md:flex absolute top-1/2 -right-20 -translate-y-1/2 z-30 w-12 h-12 rounded-full bg-[#232329] border border-gray-800 text-[#0095FF] items-center justify-center opacity-0 group-hover:opacity-100 hover:bg-[#0095FF] hover:text-white transition-all duration-200"
             aria-label="Next project"
           >
             <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
