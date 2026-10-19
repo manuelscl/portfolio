@@ -9,30 +9,30 @@ export const NAV_LINKS = [
 export const SERVICES = [
   {
     number: "01",
-    title: "Web Development",
+    title: "Frontend Web Development",
     description:
-      "Full-stack web applications built with React, TypeScript, and modern tooling. Scalable, maintainable, and performant.",
+      "Development of modern web applications using React, TypeScript, and Tailwind CSS. Clean code, responsive design, and smooth user experience.",
     icon: "code",
   },
   {
     number: "02",
     title: "Landing Pages",
     description:
-      "High-converting landing pages that load fast, look stunning, and turn visitors into customers. Optimized for SEO and Core Web Vitals.",
+      "Custom, fast-loading landing pages built from design specs. Fully responsive, clean layout, and structured for optimal Core Web Vitals.",
     icon: "layout",
   },
   {
     number: "03",
-    title: "Site Revamps",
+    title: "UI Refactoring & Redesigns",
     description:
-      "Transform your outdated website into a modern, blazing-fast experience. UI/UX redesign with performance optimization included.",
+      "Updating legacy or outdated frontends into modern React components. Performance optimizations, responsive UI fixes, and modern styling.",
     icon: "refresh",
   },
   {
     number: "04",
-    title: "Performance & Support",
+    title: "Maintenance & Performance",
     description:
-      "Ongoing maintenance, performance audits, and technical support. Keep your site secure, up-to-date, and running at peak speed.",
+      "Code maintenance, UI adjustments, and frontend performance audits to keep web interfaces responsive, up-to-date, and error-free.",
     icon: "zap",
   },
 ] as const;

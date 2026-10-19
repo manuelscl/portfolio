@@ -15,7 +15,7 @@ export function Services() {
         <SectionHeading
           label="Services"
           title="What I do"
-          subtitle="End-to-end web development services tailored to your business needs."
+          subtitle="Frontend web development services focused on building clean, fast, and responsive user interfaces."
         />
 
         <div className="grid sm:grid-cols-2 gap-6">
