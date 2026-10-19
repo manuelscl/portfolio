@@ -1,10 +1,11 @@
-import { TechIcon } from "../ui/TechIcon";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faTailwindCss, faReact, faGitAlt, faTypescript } from "@fortawesome/free-brands-svg-icons";
 
 const techIcons = [
-  { name: "react" as const, label: "React", position: "top-0 left-1/2 -translate-x-1/2 -translate-y-1/2" },
-  { name: "tailwind" as const, label: "Tailwind", position: "top-1/2 right-0 translate-x-1/2 -translate-y-1/2" },
-  { name: "typescript" as const, label: "TypeScript", position: "bottom-0 left-1/2 -translate-x-1/2 translate-y-1/2" },
-  { name: "git" as const, label: "Git", position: "top-1/2 left-0 -translate-x-1/2 -translate-y-1/2" },
+  { icon: faTailwindCss, label: "Tailwind", position: "top-0 left-1/2 -translate-x-1/2 -translate-y-1/2" },
+  { icon: faReact, label: "React", position: "top-1/2 right-0 translate-x-1/2 -translate-y-1/2" },
+  { icon: faGitAlt, label: "Git", position: "bottom-0 left-1/2 -translate-x-1/2 translate-y-1/2" },
+  { icon: faTypescript, label: "TypeScript", position: "top-1/2 left-0 -translate-x-1/2 -translate-y-1/2" },
 ];
 
 export function Hero() {
@@ -27,13 +28,12 @@ export function Hero() {
                 Manuel Cárdenas
               </h1>
               <h2 className="text-2xl sm:text-3xl lg:text-4xl font-mono font-semibold text-text-muted leading-tight">
-                I build fast, modern web experiences.
+                Frontend developer.
               </h2>
             </div>
 
             <p className="text-text-secondary text-base md:text-lg max-w-lg leading-relaxed">
-              Freelance web developer specializing in React, TypeScript, and performance-optimized
-              applications. I turn ideas into pixel-perfect, blazing-fast digital products.
+              Building web applications with React, JavaScript, TypeScript, and Tailwind CSS.
             </p>
 
             <div className="flex flex-wrap gap-4">
@@ -50,20 +50,6 @@ export function Hero() {
                 Get in touch
               </a>
             </div>
-
-            {/* Stats */}
-            <div className="flex gap-8 pt-4">
-              {[
-                { value: "8+", label: "Years exp." },
-                { value: "50+", label: "Projects" },
-                { value: "30+", label: "Clients" },
-              ].map((stat) => (
-                <div key={stat.label}>
-                  <div className="font-mono text-2xl font-bold text-electric">{stat.value}</div>
-                  <div className="text-xs text-text-muted mt-1">{stat.label}</div>
-                </div>
-              ))}
-            </div>
           </div>
 
           {/* Right: Profile photo with floating tech icons */}
@@ -73,10 +59,10 @@ export function Hero() {
               <div className="relative w-64 h-64 sm:w-80 sm:h-80 rounded-2xl overflow-hidden border-2 border-border shadow-2xl shadow-black/30">
                 <div className="absolute inset-0 bg-gradient-to-br from-surface-elevated to-surface-hover flex items-center justify-center">
                   <div className="text-center space-y-3">
-                    <div className="w-20 h-20 mx-auto rounded-full bg-electric/10 border border-electric/30 flex items-center justify-center">
+                    <div className="w-40 h-40 mx-auto rounded-full bg-electric/10 border border-electric/30 flex items-center justify-center">
                       <span className="font-mono text-electric text-2xl font-bold">MC</span>
                     </div>
-                    <p className="font-mono text-text-muted text-[10px]">Full-Stack Developer</p>
+                    
                   </div>
                 </div>
               </div>
@@ -84,11 +70,11 @@ export function Hero() {
               {/* Floating tech icons — translate outward on hover */}
               {techIcons.map((icon) => (
                 <div
-                  key={icon.name}
+                  key={icon.label}
                   className={`absolute ${icon.position} group`}
                 >
                   <div className="w-12 h-12 rounded-xl bg-surface-elevated border border-border flex items-center justify-center shadow-lg shadow-black/20 transition-all duration-300 group-hover:scale-110 group-hover:border-electric/50 group-hover:shadow-electric/10">
-                    <TechIcon name={icon.name} className="w-5 h-5 text-text-muted group-hover:text-electric transition-colors" />
+                    <FontAwesomeIcon icon={icon.icon} className="w-5 h-5 text-text-muted group-hover:text-electric transition-colors" />
                   </div>
                   {/* Tooltip */}
                   <span className="absolute -bottom-6 left-1/2 -translate-x-1/2 text-[10px] font-mono text-text-muted opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap">
