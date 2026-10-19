@@ -1,57 +1,66 @@
 import { useState, type FormEvent } from "react";
+import { useForm, ValidationError } from "@formspree/react";
 import { CONTACT_INFO } from "../../data/portfolio";
 import { SectionHeading } from "../ui/SectionHeading";
 
-interface FormData {
-  name: string;
-  email: string;
-  message: string;
-}
-
-interface FormErrors {
-  name?: string;
-  email?: string;
-  message?: string;
-}
-
-function validate(data: FormData): FormErrors {
-  const errors: FormErrors = {};
-  if (!data.name.trim()) errors.name = "Name is required";
-  if (!data.email.trim()) {
-    errors.email = "Email is required";
-  } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(data.email)) {
-    errors.email = "Invalid email address";
-  }
-  if (!data.message.trim()) {
-    errors.message = "Message is required";
-  } else if (data.message.trim().length < 10) {
-    errors.message = "Message must be at least 10 characters";
-  }
-  return errors;
-}
-
 export function Contact() {
-  const [formData, setFormData] = useState<FormData>({ name: "", email: "", message: "" });
-  const [errors, setErrors] = useState<FormErrors>({});
-  const [submitted, setSubmitted] = useState(false);
+  const [state, handleSubmit] = useForm("xaeqazvd");
+  const [localErrors, setLocalErrors] = useState<Record<string, string>>({});
 
-  function handleSubmit(e: FormEvent) {
+  function validate(data: { name: string; email: string; message: string }) {
+    const errors: Record<string, string> = {};
+    if (!data.name.trim()) errors.name = "Name is required";
+    if (!data.email.trim()) {
+      errors.email = "Email is required";
+    } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(data.email)) {
+      errors.email = "Invalid email address";
+    }
+    if (!data.message.trim()) {
+      errors.message = "Message is required";
+    } else if (data.message.trim().length < 10) {
+      errors.message = "Message must be at least 10 characters";
+    }
+    return errors;
+  }
+
+  function onFormSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
-    const validationErrors = validate(formData);
-    setErrors(validationErrors);
+    const form = e.currentTarget;
+    const data = {
+      name: (form.elements.namedItem("name") as HTMLInputElement).value,
+      email: (form.elements.namedItem("email") as HTMLInputElement).value,
+      message: (form.elements.namedItem("message") as HTMLTextAreaElement).value,
+    };
 
-    if (Object.keys(validationErrors).length === 0) {
-      setSubmitted(true);
-      setFormData({ name: "", email: "", message: "" });
-      setTimeout(() => setSubmitted(false), 5000);
+    const errors = validate(data);
+    setLocalErrors(errors);
+
+    if (Object.keys(errors).length === 0) {
+      handleSubmit(e);
     }
   }
 
-  function handleChange(field: keyof FormData, value: string) {
-    setFormData((prev) => ({ ...prev, [field]: value }));
-    if (errors[field]) {
-      setErrors((prev) => ({ ...prev, [field]: undefined }));
-    }
+  if (state.succeeded) {
+    return (
+      <section id="contact" className="py-20 md:py-28 bg-surface-elevated/30">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+          <SectionHeading
+            label="Contact"
+            title="Let's work together"
+            subtitle="Have a project in mind? I'd love to hear about it."
+          />
+          <div className="flex items-center gap-3 rounded-lg border border-green-500/30 bg-green-500/10 px-6 py-5 max-w-lg">
+            <svg className="w-6 h-6 text-green-400 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+            </svg>
+            <div>
+              <p className="text-green-400 font-semibold">Message sent successfully!</p>
+              <p className="text-sm text-text-secondary mt-1">I'll get back to you within 24 hours.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+    );
   }
 
   return (
@@ -107,7 +116,7 @@ export function Contact() {
           </div>
 
           {/* Contact form */}
-          <form onSubmit={handleSubmit} noValidate className="space-y-5">
+          <form onSubmit={onFormSubmit} noValidate className="space-y-5">
             <div className="grid sm:grid-cols-2 gap-5">
               <div>
                 <label htmlFor="name" className="block text-sm font-medium text-text-secondary mb-1.5">
@@ -115,15 +124,15 @@ export function Contact() {
                 </label>
                 <input
                   id="name"
+                  name="name"
                   type="text"
-                  value={formData.name}
-                  onChange={(e) => handleChange("name", e.target.value)}
                   className={`w-full px-4 py-2.5 rounded-lg bg-surface-elevated border text-text-primary text-sm placeholder:text-text-muted focus:outline-none focus:ring-2 focus:ring-electric/50 focus:border-electric transition-colors ${
-                    errors.name ? "border-red-500" : "border-border"
+                    localErrors.name ? "border-red-500" : "border-border"
                   }`}
                   placeholder="John Doe"
                 />
-                {errors.name && <p className="mt-1 text-xs text-red-400">{errors.name}</p>}
+                {localErrors.name && <p className="mt-1 text-xs text-red-400">{localErrors.name}</p>}
+                <ValidationError prefix="Name" field="name" errors={state.errors} />
               </div>
               <div>
                 <label htmlFor="email" className="block text-sm font-medium text-text-secondary mb-1.5">
@@ -131,15 +140,15 @@ export function Contact() {
                 </label>
                 <input
                   id="email"
+                  name="email"
                   type="email"
-                  value={formData.email}
-                  onChange={(e) => handleChange("email", e.target.value)}
                   className={`w-full px-4 py-2.5 rounded-lg bg-surface-elevated border text-text-primary text-sm placeholder:text-text-muted focus:outline-none focus:ring-2 focus:ring-electric/50 focus:border-electric transition-colors ${
-                    errors.email ? "border-red-500" : "border-border"
+                    localErrors.email ? "border-red-500" : "border-border"
                   }`}
                   placeholder="john@example.com"
                 />
-                {errors.email && <p className="mt-1 text-xs text-red-400">{errors.email}</p>}
+                {localErrors.email && <p className="mt-1 text-xs text-red-400">{localErrors.email}</p>}
+                <ValidationError prefix="Email" field="email" errors={state.errors} />
               </div>
             </div>
 
@@ -149,32 +158,32 @@ export function Contact() {
               </label>
               <textarea
                 id="message"
+                name="message"
                 rows={5}
-                value={formData.message}
-                onChange={(e) => handleChange("message", e.target.value)}
                 className={`w-full px-4 py-2.5 rounded-lg bg-surface-elevated border text-text-primary text-sm placeholder:text-text-muted focus:outline-none focus:ring-2 focus:ring-electric/50 focus:border-electric transition-colors resize-none ${
-                  errors.message ? "border-red-500" : "border-border"
+                  localErrors.message ? "border-red-500" : "border-border"
                 }`}
                 placeholder="Tell me about your project..."
               />
-              {errors.message && <p className="mt-1 text-xs text-red-400">{errors.message}</p>}
+              {localErrors.message && <p className="mt-1 text-xs text-red-400">{localErrors.message}</p>}
+              <ValidationError prefix="Message" field="message" errors={state.errors} />
             </div>
 
             <button
               type="submit"
-              className="w-full sm:w-auto px-8 py-3 rounded-lg bg-electric text-white font-semibold text-sm hover:bg-electric-dim transition-colors shadow-lg shadow-electric/20"
+              disabled={state.submitting}
+              className="w-full sm:w-auto px-8 py-3 rounded-lg bg-electric text-white font-semibold text-sm hover:bg-electric-dim transition-colors shadow-lg shadow-electric/20 disabled:opacity-50 disabled:cursor-not-allowed"
             >
-              Send message
+              {state.submitting ? "Sending..." : "Send message"}
             </button>
 
-            {/* Submission feedback */}
-            {submitted && (
-              <div className="flex items-center gap-2 rounded-lg border border-green-500/30 bg-green-500/10 px-4 py-3">
-                <svg className="w-5 h-5 text-green-400 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+            {state.errors && (
+              <div className="flex items-center gap-2 rounded-lg border border-red-500/30 bg-red-500/10 px-4 py-3">
+                <svg className="w-5 h-5 text-red-400 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                 </svg>
-                <p className="text-sm text-green-400">
-                  Message sent successfully! I'll get back to you within 24 hours.
+                <p className="text-sm text-red-400">
+                  Something went wrong. Please try again.
                 </p>
               </div>
             )}
