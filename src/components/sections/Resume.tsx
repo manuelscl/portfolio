@@ -1,29 +1,9 @@
 import { useState } from "react";
-import { EXPERIENCE, EDUCATION, SKILLS, ABOUT_ME } from "../../data/portfolio";
+import { EDUCATION, SKILLS, ABOUT_ME } from "../../data/portfolio";
 import { SectionHeading } from "../ui/SectionHeading";
 
-const tabs = ["Experience", "Education", "Skills", "About me"] as const;
+const tabs = ["Education", "Skills", "About me"] as const;
 type Tab = (typeof tabs)[number];
-
-function ExperiencePanel() {
-  return (
-    <div className="space-y-6">
-      {EXPERIENCE.map((exp) => (
-        <div
-          key={exp.role}
-          className="rounded-lg border border-border bg-surface-elevated p-5 hover:border-electric/30 transition-colors"
-        >
-          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-1 mb-2">
-            <h4 className="font-semibold text-text-primary">{exp.role}</h4>
-            <span className="font-mono text-xs text-electric">{exp.period}</span>
-          </div>
-          <p className="text-sm text-electric/80 mb-2">{exp.company}</p>
-          <p className="text-sm text-text-secondary leading-relaxed">{exp.description}</p>
-        </div>
-      ))}
-    </div>
-  );
-}
 
 function EducationPanel() {
   return (
@@ -85,14 +65,13 @@ function AboutPanel() {
 }
 
 const panelMap: Record<Tab, () => React.ReactNode> = {
-  Experience: () => <ExperiencePanel />,
   Education: () => <EducationPanel />,
   Skills: () => <SkillsPanel />,
   "About me": () => <AboutPanel />,
 };
 
 export function Resume() {
-  const [activeTab, setActiveTab] = useState<Tab>("Experience");
+  const [activeTab, setActiveTab] = useState<Tab>("Education");
 
   return (
     <section id="resume" className="py-20 md:py-28 bg-surface-elevated/30">

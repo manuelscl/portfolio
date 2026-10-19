@@ -37,57 +37,27 @@ export const SERVICES = [
   },
 ] as const;
 
-export const EXPERIENCE = [
-  {
-    role: "Senior Frontend Developer",
-    company: "Freelance",
-    period: "2021 — Present",
-    description:
-      "Delivering end-to-end web solutions for clients across fintech, SaaS, and e-commerce. Leading architecture decisions and mentoring junior developers.",
-  },
-  {
-    role: "Full-Stack Developer",
-    company: "NovaTech Solutions",
-    period: "2018 — 2021",
-    description:
-      "Built and maintained 20+ client applications. Led the migration to React and TypeScript, reducing bug reports by 40% and improving load times by 60%.",
-  },
-  {
-    role: "Frontend Developer",
-    company: "PixelCraft Agency",
-    period: "2016 — 2018",
-    description:
-      "Crafted responsive, pixel-perfect interfaces for startup clients. Collaborated closely with designers to implement complex animations and interactions.",
-  },
-] as const;
 
 export const EDUCATION = [
   {
-    degree: "B.S. Computer Science",
-    school: "University of Technology",
-    period: "2012 — 2016",
+    degree: "Oracle Next Education F2 T4 Front-end",
+    school: "Alura Latam",
+    period: "2022 - 2023",
     description:
       "Focused on software engineering, algorithms, and human-computer interaction. Graduated with honors.",
   },
-  {
-    degree: "Frontend Masters — Advanced React",
-    school: "Frontend Masters",
-    period: "2020",
-    description:
-      "Deep dive into React patterns, performance optimization, and concurrent rendering techniques.",
-  },
+
 ] as const;
 
 export const SKILLS = [
-  { category: "Frontend", items: ["React", "TypeScript", "Next.js", "Tailwind CSS", "Framer Motion", "Vite"] },
-  { category: "Backend", items: ["Node.js", "Express", "PostgreSQL", "GraphQL", "REST APIs"] },
-  { category: "Tools & DevOps", items: ["Git", "Docker", "CI/CD", "AWS", "Vercel", "Cloudflare"] },
+  { category: "Frontend", items: ["HTML5", "CSS3", "React", "TypeScript", "Tailwind CSS", "Vite"] },
+  { category: "Tools & DevOps", items: ["Git", "GitHub", "Docker", "AWS"] },
 ] as const;
 
 export const ABOUT_ME = [
-  "I'm a freelance web developer with 8+ years of experience building fast, accessible, and beautiful web applications.",
-  "I believe great software is born at the intersection of engineering excellence and thoughtful design. Every project I take on gets my full attention — from the first wireframe to the final deployment.",
-  "When I'm not coding, you'll find me contributing to open-source projects, writing technical articles, or exploring the latest web platform APIs.",
+  "I’m a Frontend Developer working mainly with React, TypeScript, JavaScript, and Tailwind CSS.",
+  "I focus on building clean components, managing application state efficiently, and making sure layouts look good on all devices. I care about speed, clean Git workflows, and writing code that is easy to read and maintain.",
+  "I learn by building real projects, solving problems hands-on, and constantly improving my core web development skills.",
 ] as const;
 
 export const PROJECTS = [
